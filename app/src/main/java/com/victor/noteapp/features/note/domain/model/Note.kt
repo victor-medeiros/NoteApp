@@ -1,4 +1,4 @@
-package com.victor.noteapp.features.note.domain
+package com.victor.noteapp.features.note.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
