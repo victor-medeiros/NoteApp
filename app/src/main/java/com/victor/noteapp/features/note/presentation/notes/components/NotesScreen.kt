@@ -1,11 +1,13 @@
 package com.victor.noteapp.features.note.presentation.notes.components
 
+import androidx.compose.animation.*
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -13,20 +15,39 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.victor.noteapp.features.note.presentation.notes.NotesEvent
 import com.victor.noteapp.features.note.presentation.notes.NotesViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 
+@ExperimentalAnimationApi
 @Composable
 fun NotesScreen(
     viewModel: NotesViewModel = hiltViewModel(),
-    navigation: Navigation
+    navController: NavController
 ) {
     val state = viewModel.notesState.value
 
     val scope = rememberCoroutineScope()
 
+    val scaffoldState = rememberScaffoldState()
+
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /*TODO*/ },
+                backgroundColor = MaterialTheme.colors.primary
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add note"
+                )
+            }
+        },
+    ) {
+
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,21 +58,48 @@ fun NotesScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "My notes")
+            Text(
+                text = "My notes",
+                style = MaterialTheme.typography.h4
+            )
             Icon(
                 imageVector = Icons.Default.Sort,
-                contentDescription = "Sort notes"
+                contentDescription = "Sort notes",
+                Modifier.clickable {
+                    viewModel.onEvent(NotesEvent.ToggleOrderSection)
+                }
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        OrderSection(
-            modifier = Modifier.fillMaxWidth(),
-            noteOrder = state.noteOrder,
-            onChangeNoteOrder = { viewModel.onEvent(NotesEvent.Order(state.noteOrder)) }
-        )
+        AnimatedVisibility(
+            visible = state.isOrderSectionVisible,
+            enter = fadeIn() + slideInVertically(),
+            exit = fadeOut() + slideOutVertically()
+        ) {
+            OrderSection(
+                modifier = Modifier.fillMaxWidth(),
+                noteOrder = state.noteOrder,
+                onChangeNoteOrder = { viewModel.onEvent(NotesEvent.Order(it)) }
+            )
+
+        }
         LazyColumn() {
             items(state.notes) { note ->
-
+                NoteItem(
+                    note = note,
+                    onDelete = {
+                        viewModel.onEvent(NotesEvent.DeleteNote(note))
+                        scope.launch {
+                            val snackBarResult = scaffoldState.snackbarHostState.showSnackbar(
+                                message = "Note deleted",
+                                actionLabel = "Undo"
+                            )
+                            if (snackBarResult == SnackbarResult.ActionPerformed) {
+                                viewModel.onEvent(NotesEvent.RestoreNote)
+                            }
+                        }
+                    }
+                )
             }
         }
     }

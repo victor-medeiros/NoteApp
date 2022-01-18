@@ -7,17 +7,19 @@ import com.victor.noteapp.features.note.data.data_source.NoteDatabase
 import com.victor.noteapp.features.note.data.repository.NoteRepositoryImpl
 import com.victor.noteapp.features.note.domain.repository.NoteRepository
 import com.victor.noteapp.features.note.domain.use_case.*
+import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+@Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Singleton
     @Provides
-    fun provideNoteDatabase(app: Application): RoomDatabase {
+    fun provideNoteDatabase(app: Application): NoteDatabase {
         return Room.databaseBuilder(
             app,
             NoteDatabase::class.java,

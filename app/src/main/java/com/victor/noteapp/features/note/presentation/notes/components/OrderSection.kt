@@ -1,11 +1,10 @@
 package com.victor.noteapp.features.note.presentation.notes.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.victor.noteapp.features.note.domain.utils.NoteOrder
 import com.victor.noteapp.features.note.domain.utils.OrderType
 
@@ -29,6 +28,7 @@ fun OrderSection(
                 },
                 text = "Title"
             )
+            Spacer(modifier = Modifier.width(16.dp))
             DefaultRadioButton(
                 selected = noteOrder is NoteOrder.Date,
                 onSelect = {
@@ -36,6 +36,7 @@ fun OrderSection(
                 },
                 text = "Date"
             )
+            Spacer(modifier = Modifier.width(16.dp))
             DefaultRadioButton(
                 selected = noteOrder is NoteOrder.Color,
                 onSelect = {
@@ -43,7 +44,9 @@ fun OrderSection(
                 },
                 text = "Color"
             )
+            Spacer(modifier = Modifier.width(16.dp))
         }
+        Spacer(modifier = Modifier.height(16.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -55,12 +58,13 @@ fun OrderSection(
                 },
                 text = "Ascending"
             )
+            Spacer(modifier = Modifier.width(16.dp))
             DefaultRadioButton(
                 selected = noteOrder.orderType is OrderType.Descending,
                 onSelect = {
                     onChangeNoteOrder(noteOrder.copy())
                 },
-                text = "Ascending"
+                text = "Descending"
             )
         }
     }

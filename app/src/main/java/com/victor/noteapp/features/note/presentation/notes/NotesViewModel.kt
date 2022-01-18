@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.victor.noteapp.features.note.domain.model.Note
 import com.victor.noteapp.features.note.domain.use_case.NoteUseCases
@@ -18,8 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
-    private val notesUseCases: NoteUseCases,
-    private val navigation: Navigation
+    private val notesUseCases: NoteUseCases
 ): ViewModel() {
     private val _notesState = mutableStateOf(NotesState())
     val notesState: State<NotesState> = _notesState
@@ -66,7 +66,8 @@ class NotesViewModel @Inject constructor(
         noteJob = notesUseCases.getNotes(noteOrder)
             .onEach { notes ->
                 _notesState.value = notesState.value.copy(
-                notes = notes
+                    notes = notes,
+                    noteOrder = noteOrder
                 )
             }
             .launchIn(viewModelScope)
