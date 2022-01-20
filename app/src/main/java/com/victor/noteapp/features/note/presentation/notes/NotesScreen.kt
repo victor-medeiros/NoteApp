@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.victor.noteapp.features.note.presentation.notes.NotesEvent
 import com.victor.noteapp.features.note.presentation.notes.NotesViewModel
+import com.victor.noteapp.features.note.presentation.utils.Screen
 import kotlinx.coroutines.launch
 
 @ExperimentalAnimationApi
@@ -36,7 +37,9 @@ fun NotesScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    navController.navigate(Screen.AddEditNoteScreen.route)
+                },
                 backgroundColor = MaterialTheme.colors.primary
             ) {
                 Icon(
@@ -86,6 +89,11 @@ fun NotesScreen(
         LazyColumn() {
             items(state.notes) { note ->
                 NoteItem(
+                    modifier = Modifier.clickable {
+                        navController.navigate(
+                            "${Screen.AddEditNoteScreen.route}?noteId=${note.id}"
+                        )
+                    },
                     note = note,
                     onDelete = {
                         viewModel.onEvent(NotesEvent.DeleteNote(note))

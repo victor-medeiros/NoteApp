@@ -19,8 +19,7 @@ fun TransparentHintTextField(
     modifier: Modifier = Modifier,
     textStyle: TextStyle,
     singleLine: Boolean,
-    maxLines: Int = 10,
-    onTextChange: (String) -> Unit,
+    onValueChange: (String) -> Unit,
     onFocusChange: (FocusState) -> Unit
 ) {
     Box(modifier = modifier) {
@@ -28,12 +27,12 @@ fun TransparentHintTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .onFocusChanged {
-                    onFocusChange
+                    onFocusChange(it)
                 },
             value = text,
             textStyle = textStyle,
             singleLine = singleLine,
-            onValueChange = onTextChange
+            onValueChange = onValueChange
         )
         if (isHintVisible) {
             Text(

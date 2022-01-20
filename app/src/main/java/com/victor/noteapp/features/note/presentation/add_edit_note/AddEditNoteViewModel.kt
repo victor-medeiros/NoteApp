@@ -1,5 +1,6 @@
 package com.victor.noteapp.features.note.presentation.add_edit_note
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.toArgb
@@ -66,9 +67,13 @@ class AddEditNoteViewModel @Inject constructor(
                 )
             }
             is AddEditNoteEvent.FocusTitleTextField -> {
+                val isHintVisible = !event.focusState.isFocused
+                        && contentState.value.text.isBlank()
+                Log.d("Title", ":::")
+                Log.d("isFocused", (!event.focusState.isFocused).toString())
+                Log.d("isBlank", contentState.value.text.toString())
                 _titleState.value = titleState.value.copy(
-                    isHintVisible = !event.focusState.isFocused
-                            && titleState.value.text.isBlank()
+                    isHintVisible = isHintVisible
                 )
             }
             is AddEditNoteEvent.ChangeContentText -> {
@@ -77,9 +82,11 @@ class AddEditNoteViewModel @Inject constructor(
                 )
             }
             is AddEditNoteEvent.FocusContentTextField -> {
+                val isHintVisible = !event.focusState.isFocused
+                        && contentState.value.text.isBlank()
+                Log.d("isHintVisible", isHintVisible.toString())
                 _contentState.value = contentState.value.copy(
-                    isHintVisible = event.focusState.isFocused
-                            && contentState.value.text.isBlank()
+                    isHintVisible = isHintVisible
                 )
             }
             is AddEditNoteEvent.ChangeColor -> {

@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -65,7 +64,6 @@ fun AddEditNoteScreen(
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
@@ -78,15 +76,19 @@ fun AddEditNoteScreen(
                     contentDescription = "Save note",
                 )
             }
-        }
+        },
+        scaffoldState = scaffoldState
     ) {
         Column(
             modifier = Modifier
+                .background(noteBackGroundAnimatable.value)
                 .padding(16.dp)
+                .fillMaxSize()
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Note.colors.forEach { color ->
@@ -124,7 +126,7 @@ fun AddEditNoteScreen(
                 isHintVisible = titleState.isHintVisible,
                 textStyle = MaterialTheme.typography.h5,
                 singleLine = true,
-                onTextChange = {
+                onValueChange = {
                     viewModel.onEvent(AddEditNoteEvent.ChangeTitleText(it))
                 },
                 onFocusChange = {
@@ -138,7 +140,7 @@ fun AddEditNoteScreen(
                 isHintVisible = contentState.isHintVisible,
                 textStyle = MaterialTheme.typography.body1,
                 singleLine = false,
-                onTextChange = {
+                onValueChange = {
                     viewModel.onEvent(AddEditNoteEvent.ChangeContentText(it))
                 },
                 onFocusChange = {
