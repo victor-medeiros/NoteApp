@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditNoteViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ): ViewModel() {
     private val _titleState = mutableStateOf(BasicTextFieldState(
         hint = "Enter the note title"
@@ -47,10 +47,12 @@ class AddEditNoteViewModel @Inject constructor(
                     noteUseCases.getNote(id)?.also { note ->
                         noteId = id
                         _titleState.value = titleState.value.copy(
-                            text = note.title
+                            text = note.title,
+                            isHintVisible = note.title.isBlank()
                         )
                         _contentState.value = contentState.value.copy(
-                            text = note.content
+                            text = note.content,
+                            isHintVisible = note.content.isBlank()
                         )
                         _colorState.value = note.color
                     }
@@ -68,10 +70,10 @@ class AddEditNoteViewModel @Inject constructor(
             }
             is AddEditNoteEvent.FocusTitleTextField -> {
                 val isHintVisible = !event.focusState.isFocused
-                        && contentState.value.text.isBlank()
+                        && titleState.value.text.isBlank()
                 Log.d("Title", ":::")
                 Log.d("isFocused", (!event.focusState.isFocused).toString())
-                Log.d("isBlank", contentState.value.text.toString())
+                Log.d("isBlank", contentState.value.text)
                 _titleState.value = titleState.value.copy(
                     isHintVisible = isHintVisible
                 )
