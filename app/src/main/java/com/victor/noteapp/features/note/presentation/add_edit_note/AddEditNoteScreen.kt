@@ -30,8 +30,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddEditNoteScreen(
     viewModel: AddEditNoteViewModel = hiltViewModel(),
-    navController: NavController,
-    noteColor: Int
+    navController: NavController
 ) {
     val titleState = viewModel.titleState.value
     val contentState = viewModel.contentState.value
@@ -43,7 +42,7 @@ fun AddEditNoteScreen(
 
     val noteBackGroundAnimatable = remember {
         Animatable(
-            Color(if (noteColor == -1) Note.colors.random().toArgb() else noteColor)
+            Color(if (colorState == -1) Note.colors.random().toArgb() else colorState)
         )
     }
 
