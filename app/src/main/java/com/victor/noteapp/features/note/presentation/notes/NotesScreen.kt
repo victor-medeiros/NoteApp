@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import com.victor.noteapp.features.note.presentation.notes.NotesEvent
 import com.victor.noteapp.features.note.presentation.notes.NotesViewModel
 import com.victor.noteapp.features.note.presentation.utils.Screen
@@ -91,7 +90,7 @@ fun NotesScreen(
                 NoteItem(
                     modifier = Modifier.clickable {
                         navController.navigate(
-                            "${Screen.AddEditNoteScreen.route}?noteId=${note.id}"
+                            "${Screen.AddEditNoteScreen.route}?noteId=${note.id}&noteColor=${note.color}"
                         )
                     },
                     note = note,
