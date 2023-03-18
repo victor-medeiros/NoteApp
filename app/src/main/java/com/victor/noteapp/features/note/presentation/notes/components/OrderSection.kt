@@ -21,28 +21,28 @@ fun OrderSection(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            DefaultRadioButton(
-                selected = noteOrder is NoteOrder.Title,
+            TextChip(
+                isSelected = noteOrder is NoteOrder.Title,
                 onSelect = {
                     onChangeNoteOrder(NoteOrder.Title(noteOrder.orderType))
                 },
-                text = "Title"
+                text = "Title",
             )
             Spacer(modifier = Modifier.width(16.dp))
-            DefaultRadioButton(
-                selected = noteOrder is NoteOrder.Date,
+            TextChip(
+                isSelected = noteOrder is NoteOrder.Date,
                 onSelect = {
                     onChangeNoteOrder(NoteOrder.Date(noteOrder.orderType))
                 },
-                text = "Date"
+                text = "Date",
             )
             Spacer(modifier = Modifier.width(16.dp))
-            DefaultRadioButton(
-                selected = noteOrder is NoteOrder.Color,
+            TextChip(
+                isSelected = noteOrder is NoteOrder.Color,
                 onSelect = {
                     onChangeNoteOrder(NoteOrder.Color(noteOrder.orderType))
                 },
-                text = "Color"
+                text = "Color",
             )
             Spacer(modifier = Modifier.width(16.dp))
         }
@@ -51,20 +51,20 @@ fun OrderSection(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            DefaultRadioButton(
-                selected = noteOrder.orderType is OrderType.Ascending,
+            TextChip(
+                isSelected = noteOrder.orderType is OrderType.Ascending,
                 onSelect = {
                     onChangeNoteOrder(noteOrder.copy())
                 },
-                text = "Ascending"
+                text = "Ascending",
             )
             Spacer(modifier = Modifier.width(16.dp))
-            DefaultRadioButton(
-                selected = noteOrder.orderType is OrderType.Descending,
+            TextChip(
+                isSelected = noteOrder.orderType is OrderType.Descending,
                 onSelect = {
                     onChangeNoteOrder(noteOrder.copy())
                 },
-                text = "Descending"
+                text = "Descending",
             )
         }
     }

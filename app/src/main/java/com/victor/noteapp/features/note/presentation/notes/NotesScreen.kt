@@ -1,5 +1,6 @@
 package com.victor.noteapp.features.note.presentation.notes.components
 
+import android.content.res.Configuration
 import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,9 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.victor.noteapp.features.note.presentation.notes.NotesEvent
 import com.victor.noteapp.features.note.presentation.notes.NotesViewModel
 import com.victor.noteapp.features.note.presentation.utils.Screen
@@ -115,4 +118,12 @@ fun NotesScreen(
             }
         }
     }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun NotesPreview() {
+    val navController = rememberNavController()
+    NotesScreen(navController = navController, viewModel = hiltViewModel())
 }
